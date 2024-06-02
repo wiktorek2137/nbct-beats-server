@@ -60,7 +60,7 @@ function checkPaymentStatus(id) {
         if (paymentStatus != 'PENDING') {
             updateDatabase(paymentId, paymentStatus)
         }
-    }).catch(error => {clearInterval(interval)})
+    }).catch(error => {})
 }
 
 function updateDatabase(id, status) {

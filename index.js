@@ -60,7 +60,7 @@ function checkPaymentStatus(id) {
         if (paymentStatus != 'PENDING') {
             updateDatabase(paymentId, paymentStatus)
         }
-    }).catch(error => { console.log(error) })
+    }).catch(error => { console.log(error.statusCode) })
 }
 
 function updateDatabase(id, status) {

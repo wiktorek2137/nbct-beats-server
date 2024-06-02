@@ -103,7 +103,7 @@ function queryDatabase() {
         console.log('Connected to MySQL!');
     });
 
-    const sqlSelect = "SELECT * FROM payments WHERE payments_status NOT LIKE 'CONFIRMED'";
+    const sqlSelect = "SELECT * FROM payments WHERE payment_status NOT LIKE 'CONFIRMED'";
     console.log(sqlSelect)
 
     connection.query(sqlSelect, (err, rows) => {

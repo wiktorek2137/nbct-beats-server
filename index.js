@@ -16,6 +16,7 @@ app.use(cors())
 //     res.header('Access-Control-Allow-Origin', '*');
 //     next()
 // })
+
 const paymentsToCheck = []
 let interval = setIntervalAsActive()
 app.get('/addPaymentId', (req, res) => {
@@ -88,3 +89,34 @@ function updateDatabase(id, status) {
         console.log('Connection closed.');
     });
 }
+
+function queryDatabase() {
+    const connection = mysql.createConnection({
+        host: process.env.dbHost,
+        user: process.env.dbUser,
+        password: process.env.dbPassword,
+        database: process.env.dbName,
+    });
+
+    connection.connect((err) => {
+        if (err) throw err;
+        console.log('Connected to MySQL!');
+    });
+
+    const sqlSelect = "SELECT * FROM payments WHERE payments_status NOT LIKE 'CONFIRMED'";
+    console.log(sqlSelect)
+
+    connection.query(sqlSelect, (err, rows) => {
+        if (err) throw err;
+
+        rows.forEach(row => {
+            console.log(row.id)
+            paymentsToCheck.push(row.id);
+        })
+    });
+    connection.end((err) => {
+        if (err) throw err;
+        console.log('Connection closed.');
+    });
+}
+queryDatabase()

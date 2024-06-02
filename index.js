@@ -76,6 +76,7 @@ function updateDatabase(id, status) {
     });
 
     const sqlSelect = "UPDATE payments SET payment_status='" + status + "' WHERE payment_id='" + id + "'";
+    console.log(sqlSelect)
 
     connection.query(sqlSelect, (err, rows) => {
         if (err) throw err;

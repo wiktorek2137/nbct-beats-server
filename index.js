@@ -47,8 +47,8 @@ function checkPaymentStatus(id) {
         method: 'GET',
         url: `https://api.sandbox.paynow.pl/v1/payments/${id}/status`,
         headers: {
-            "Api-Key": process.env.apiKey,
-            "Idempotency-Key": process.env.idempotencyKey
+            'Api-Key': process.env.apiKey,
+            'Accept' : '*/*'
         }
 
     }

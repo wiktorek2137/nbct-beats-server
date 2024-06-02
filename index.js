@@ -53,13 +53,14 @@ function checkPaymentStatus(id) {
 
     }
     axios.request(options).then(response => {
+        console.log(response)
         const paymentId = response.data.paymentId
         const paymentStatus = response.data.status;
         console.log(paymentId,paymentStatus)
         if (paymentStatus != 'PENDING') {
             updateDatabase(paymentId, paymentStatus)
         }
-    }).catch(error => { })
+    }).catch(error => { console.log(error) })
 }
 
 function updateDatabase(id, status) {

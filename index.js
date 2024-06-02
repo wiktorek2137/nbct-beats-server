@@ -1,9 +1,9 @@
-const port = 3001 || process.env.PORT
+const port = process.env.PORT || 3001
 const express = require('express')
 const cors = require('cors')
 const axios = require('axios')
 const mysql = require('mysql');
-// require('dotenv').config()
+require('dotenv').config()
 const app = express()
 app.use(cors())
 // {
@@ -25,7 +25,7 @@ app.get('/addPaymentId', (req, res) => {
     if (!interval) {
         interval = setIntervalAsActive()
     }
-    res.redirect(`https://www.onet.pl?paymentId=${paymentId}`);
+    res.redirect(`https://beaty.nobocoto.pl/order_confirm.php?paymentId=${paymentId}`);
 })
 app.listen(port, () => console.log(`Server running on port ${port}`))
 
@@ -42,16 +42,20 @@ function setIntervalAsActive() {
         }
     }, 5000)
 }
-
 function checkPaymentStatus(id) {
     const options = {
         method: 'GET',
-        url: `http://localhost:3010?paymentId=${id}`,
+        url: `https://api.sandbox.paynow.pl/v1/payments/${id}/status`,
+        headers: {
+            "Api-Key": process.env.apiKey,
+            "Idempotency-Key": process.env.idempotencyKey
+        }
+
     }
     axios.request(options).then(response => {
         const paymentId = response.data.paymentId
         const paymentStatus = response.data.status;
-        if (paymentStatus !== 'waiting') { // jeśli inna niż oczekująca
+        if (paymentStatus !== 'WAITING') {
             updateDatabase(paymentId, paymentStatus)
         }
     }).catch(error => { })
@@ -59,10 +63,10 @@ function checkPaymentStatus(id) {
 
 function updateDatabase(id, status) {
     const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'node',
+        host: process.env.dbHost,
+        user: process.env.dbuser,
+        password: process.env.dbPassword,
+        database: process.env.dbName,
     });
 
     connection.connect((err) => {

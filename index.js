@@ -75,7 +75,7 @@ function updateDatabase(id, status) {
         console.log('Connected to MySQL!');
     });
 
-    const sqlSelect = "UPDATE payments SET payment_status='" + status + "' WHERE payment_id='" + id + "'";
+    const sqlSelect = "UPDATE payments SET payment_status='" + status + "' WHERE payment_number='" + id + "'";
     console.log(sqlSelect)
 
     connection.query(sqlSelect, (err, rows) => {

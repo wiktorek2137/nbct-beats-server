@@ -110,8 +110,8 @@ function queryDatabase() {
         if (err) throw err;
 
         rows.forEach(row => {
-            console.log(row.id)
-            paymentsToCheck.push(row.id);
+            console.log(row.payment_number)
+            paymentsToCheck.push(row.payment_number);
         })
     });
     connection.end((err) => {

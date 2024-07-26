@@ -78,7 +78,7 @@ function updateDatabase(id, status) {
     });
 
     const sqlSelect = "UPDATE payments SET payment_status='" + status + "' WHERE payment_number='" + id + "'";
-    if (Status == 'CONFIRMED') {
+    if (status == 'CONFIRMED') {
         sendConfirmationEmail(id)
     }
 
